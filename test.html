@@ -1,0 +1,39 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSocket Test</title>
+</head>
+<body>
+  <h1>WebSocket Test</h1>
+  <input type="text" id="messageInput" placeholder="Type your message here">
+  <button id="sendButton">Send</button>
+  <ul id="messages"></ul>
+
+  <script>
+    const socket = new WebSocket('ws://www.password.tolstonozhenko.com.ua');
+    const messageInput = document.getElementById('messageInput');
+    const sendButton = document.getElementById('sendButton');
+    const messages = document.getElementById('messages');
+
+    socket.addEventListener('open', () => {
+      console.log('Connected to WebSocket server');
+    });
+
+    socket.addEventListener('message', (event) => {
+      const message = document.createElement('li');
+      message.textContent = event.data;
+      messages.appendChild(message);
+    });
+
+    sendButton.addEventListener('click', () => {
+      const message = messageInput.value;
+      socket.send(message);
+      messageInput.value = '';
+    });
+  </script>
+</body>
+</html>
